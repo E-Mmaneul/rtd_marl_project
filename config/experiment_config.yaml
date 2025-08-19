@@ -1,0 +1,52 @@
+# 实验配置文件
+env:
+  name: GridWorld
+  size: 5
+  num_agents: 2
+  max_steps: 50
+
+training:
+  episodes: 1000
+  gamma: 0.95
+  lr: 0.0001
+  batch_size: 32
+
+rtd:
+  # 基础后悔阈值
+  regret_threshold: 1.0
+  delay_queue_size: 10
+  ensemble_size: 3
+  
+  # 策略非平稳性自适应参数
+  policy_change_window: 10  # 策略变化检测窗口
+  kl_threshold: 0.1  # KL散度阈值
+  lambda_min: 0.1
+  lambda_max: 2.0
+  lambda_kappa: 1.0
+  lambda_tau: 0.5
+  
+  # 个体后悔+团队后悔混合参数
+  individual_regret_weight: 0.6
+  team_regret_weight: 0.4
+  regret_learning_rate: 0.01
+  
+  # 合作/竞争检测参数
+  cooperation_window: 20
+  reward_covariance_threshold: 0.1
+  marginal_gain_threshold: 0.05
+  cooperation_smoothing: 0.9  # EMA参数
+  
+  # 动态阈值调整参数
+  alpha_base: 0.3
+  beta_base: 0.7
+  alpha_delta: 0.2
+  beta_delta: 0.2
+  
+  # 通信资源限制参数
+  communication_budget: 100
+  message_cost: 1
+  voi_threshold: 0.1
+  
+  # 延迟域参数
+  delay_domain_steps: 3
+  guardian_action_prob: 0.3

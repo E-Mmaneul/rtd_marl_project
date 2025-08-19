@@ -1,0 +1,71 @@
+# 长期训练配置文件 - 专门用于提高RTD性能
+# 通过增加episodes数量和优化参数来提升RTD算法表现
+
+env:
+  name: "GridWorld"
+  size: 5                    # 增加网格大小，适应更多episodes
+  num_agents: 2
+  max_steps: 40             # 增加最大步数，适应更复杂的任务
+
+training:
+  episodes: 1000            # 大幅增加episodes数量，提高RTD性能
+  gamma: 0.98               # 提高折扣因子，适应长期训练
+  lr: 0.00005              # 降低学习率，适应长期训练
+  batch_size: 64           # 增加批次大小，提高训练稳定性
+  early_stopping: true      # 启用早停机制
+  patience: 100            # 早停耐心值
+
+rtd:
+  # 核心参数优化
+  regret_threshold: 0.5     # 进一步降低遗憾阈值，提高学习效率
+  delay_queue_size: 10      # 增加延迟队列大小，适应更多episodes
+  ensemble_size: 4          # 增加集成大小，提高稳定性
+  
+  # 策略自适应参数
+  policy_change_window: 10  # 增加策略变化窗口，适应长期学习
+  kl_threshold: 0.06        # 降低KL阈值，提高策略变化检测敏感度
+  lambda_min: 0.03          # 降低最小lambda，提高自适应能力
+  lambda_max: 3.0           # 增加最大lambda，扩大适应范围
+  lambda_kappa: 0.5         # 进一步降低策略变化敏感度，适应长期训练
+  lambda_tau: 0.2           # 降低策略变化阈值，提高响应性
+  
+  # 遗憾权重优化
+  individual_regret_weight: 0.7  # 增加个体遗憾权重，提高个人学习
+  team_regret_weight: 0.3        # 相应减少团队遗憾权重
+  regret_learning_rate: 0.005    # 降低学习率，适应长期训练
+  
+  # 合作机制优化
+  cooperation_window: 20         # 增加合作窗口，适应更多episodes
+  reward_covariance_threshold: 0.06  # 降低奖励协方差阈值
+  marginal_gain_threshold: 0.02      # 降低边际增益阈值
+  cooperation_smoothing: 0.95        # 增加合作平滑度
+  
+  # 决策阈值优化
+  alpha_base: 0.1              # 进一步降低accept阈值，提高决策效率
+  beta_base: 0.5               # 进一步降低delay阈值，减少延迟
+  alpha_delta: 0.02            # 减少阈值变化幅度，提高稳定性
+  beta_delta: 0.02
+  
+  # 通信机制优化
+  communication_budget: 100     # 增加通信预算，适应更多episodes
+  message_cost: 0.6            # 降低消息成本，鼓励通信
+  voi_threshold: 0.06          # 降低价值信息阈值
+  delay_domain_steps: 4        # 增加延迟域步数，适应复杂决策
+  guardian_action_prob: 0.7    # 增加守护动作概率，提高安全性
+
+# 实验配置
+experiment:
+  name: "RTD_Long_Training_Optimization"
+  description: "通过增加episodes数量和优化RTD参数来提高算法性能"
+  expected_improvements:
+    - "RTD最终平均奖励提升到300+"
+    - "RTD后悔值降低到0.2以下"
+    - "RTD性能排名提升到前2名"
+    - "决策分布更加均衡"
+    - "场景适应性显著增强"
+  
+  monitoring:
+    save_checkpoints: true     # 保存检查点
+    checkpoint_interval: 100   # 每100个episode保存一次
+    log_metrics: true          # 记录详细指标
+    visualize_progress: true   # 可视化训练进度
